@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>File Explorer</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/formFn.js" defer></script>
+  </head>
+  <body>
+    <%- include("partials/navHeader.ejs") %>
+
+    <div>
+      <table>
+        <tr>
+          <th class="thName">Name</th>
+          <th>Size</th>
+          <th>Uploaded Time</th>
+          <th>Download/Share</th>
+          <th>Delete</th>
+        </tr>
+        <% user.folders.forEach((folder) => { %>
+        <tr>
+          <td class="folderName">
+            <a class="folder" href="/folder/<%= folder.id %>"
+              ><%= folder.name %></a
+            >
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <form action="/deleteFolder/<%= folder.id %>" method="POST">
+              <button class="deleteBtn" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %> <% user.files.forEach((file) => { %>
+        <tr>
+          <td class="fileName"><%= file.name %></td>
+          <td><%= file.size %> bytes</td>
+          <td><%= new Date(file.createdAt).toLocaleString() %></td>
+          <td>
+            <a class="download" href="/download/<%= file.id %>">Download</a>
+          </td>
+          <td>
+            <form action="/deleteFile/<%= file.id %>" method="POST">
+              <button class="deleteBtn" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </table>
+    </div>
+  </body>
+</html>

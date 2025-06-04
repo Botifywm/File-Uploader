@@ -1,0 +1,69 @@
+<div class="header">
+  <div class="headerName">Clouddi</div>
+  <a class="logout" href="/logout">Logout</a>
+</div>
+
+<div class="topContainer">
+  <div class="rootLogoDiv">
+    <div>
+      <a href="/explorer"
+        ><img class="rootLogo" src="/rootLogo.svg" alt=""
+      /></a>
+      <% if(parentList.length) {%>
+      <span class="path">/</span>
+      <% }%> <% parentList.forEach((parent) => {%>
+      <a class="parentLink" href="/folder/<%= parent.Id %>"
+        ><%= parent.name %></a
+      >
+      <% if(parent.Id !== folder.id) {%>
+      <span class="path">/</span>
+      <% }%> <%}) %>
+    </div>
+  </div>
+
+  <div class="actionBtn">
+    <button id="openModalBtn">Create Folder</button>
+    <button
+      class="uploadBtn"
+      onclick="document.getElementById('realFileInput').click()"
+    >
+      Upload File
+    </button>
+  </div>
+</div>
+
+<form
+  id="uploadForm"
+  action="/upload"
+  method="POST"
+  enctype="multipart/form-data"
+>
+  <input
+    type="file"
+    id="realFileInput"
+    name="file"
+    style="display: none"
+    onchange="document.getElementById('uploadForm').submit()"
+  />
+  <% if(typeof folder!== 'undefined') { %>
+  <input type="hidden" name="folderId" value="<%= folder.id %>" />
+  <%} else { %>
+  <input type="hidden" name="folderId" value="<%= null %>" />
+  <%}%>
+</form>
+
+<div id="folderModal" class="modal">
+  <div class="modal-content">
+    <form action="/createFolder" method="POST">
+      <label for="folderName">Folder Name:</label>
+      <input type="text" name="folderName" required />
+      <% if(typeof folder!== 'undefined') { %>
+      <input type="hidden" name="parentId" value="<%= folder.id %>" />
+      <%}%>
+      <div>
+        <button class="createFolder" type="submit">Create</button>
+        <button class="close" id="closeModalBtn">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
