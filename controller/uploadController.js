@@ -17,7 +17,7 @@ async function createSignUp(req, res) {
     },
   });
   console.log(userAdded);
-  res.redirect("/loginPage");
+  res.redirect("/");
 }
 
 async function getLogin(req, res) {
@@ -29,7 +29,7 @@ function loginPost(req, res, next) {
     if (err) return next(err);
     if (!user) {
       req.session.loginError = info.message;
-      return res.redirect("/loginPage"); // Add custom message if needed
+      return res.redirect("/"); // Add custom message if needed
     }
 
     req.logIn(user, (err) => {
@@ -47,7 +47,7 @@ async function getLogOut(req, res, next) {
     req.session.destroy((err) => {
       if (err) return next(err);
       res.clearCookie("connect.sid", { path: "/" });
-      res.redirect("/loginPage");
+      res.redirect("/");
     });
   });
 }

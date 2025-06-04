@@ -5,7 +5,7 @@ const multer = require("multer");
 
 const upload = multer({ dest: "uploads/" });
 
-indexRouter.get("/loginPage", uploadController.getLogin);
+indexRouter.get("/", uploadController.getLogin);
 indexRouter.post("/login", uploadController.loginPost);
 
 indexRouter.get("/signup", uploadController.getSignUp);
